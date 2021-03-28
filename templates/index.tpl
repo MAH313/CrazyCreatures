@@ -50,7 +50,7 @@
 				</div>
 
 				<div class="inline">
-					<a class="ui primary button" href='https://discord.gg/nrARJvS'>Join ons op Discord<i class="right arrow icon"></i></a>
+					<a class="ui primary button" href='https://discord.gg/4xr9DZ6AVP'>Join ons op Discord<i class="right arrow icon"></i></a>
 				</div>
 			</div>
 		</div>
