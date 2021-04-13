@@ -4,25 +4,28 @@ class Route{
 
 	private $paths = [];
 
-	public function add($path, $function){
-    #adds a route
-		$this->paths[] = ['path'=> trim($path, '/') ? trim($path, '/') : '/', 'function'=> $function];
+	public function addPath($path, $controller, $function){
+    	#adds a route
+		$this->paths[] = ['path'=> trim($path, '/') ? trim($path, '/') : '/', 'controller' => $controller, 'function' => $function];
 	}
 
 	public function submit(){
-    #routing function
+    	#routing function
 		$uri = isset($_GET['uri']) ? $_GET['uri'] : "/";
 		$FourOhFour = true;
 
 		foreach ($this->paths as $pathKey => $pathValue) {
-			if(preg_match("#^".$pathValue['path']."$#", $uri)){
-				if(function_exists("init")){
-					$initOuput = init();
+			if(preg_match("#^".$pathValue['path']."$#", $uri, $matches)){
+				if(method_exists($pathValue['controller'], "init")){
+					$initOuput = call_user_func([$pathValue['controller'], "init"], $matches);
 				}
 				else{
-					$initOuput = [];
+					$initOuput = (object)[];
 				}
-				$pathValue['function']($initOuput);
+
+				$initOuput->url_matches = $matches;
+
+				call_user_func([$pathValue['controller'], $pathValue['function']], $initOuput);
 				$FourOhFour = false;
 			}
 		}

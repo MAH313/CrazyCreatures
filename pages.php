@@ -2,9 +2,9 @@
 include_once "./libs/route.php";
 include_once './libs/smarty/libs/Smarty.class.php';
 
-//class Pages{
+class Pages{
 
-	function init(){
+	public function init(){
 	    // initialasation function
 	    // results get included as the first param in a page function
 		$smarty = new Smarty;
@@ -17,10 +17,11 @@ include_once './libs/smarty/libs/Smarty.class.php';
 		return (object) $output;
 	}
 
-	function index($base){
+	public function index($base){
 	    // home page / todo list
 		
+		//$base->smarty->assign('id', $base->url_matches['id']);
 		$base->smarty->display('./templates/index.tpl');
 	}
 
-
+}

@@ -11,7 +11,10 @@ $route = new Route();
 /*start of routes                       */
 /*--------------------------------------*/
 
-$route->add("/", "index");
+//$route->addController("pages", new Pages());
+
+$route->addPath("/", "Pages", "index");
+//$route->add("/id/(?'id'[0-9]*)", "index");
 
 /*--------------------------------------*/
 /*end of routes                       */
