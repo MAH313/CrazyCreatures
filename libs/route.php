@@ -2,11 +2,17 @@
 
 class Route{
 
+	private $controllers = [];
 	private $paths = [];
 
 	public function addPath($path, $controller, $function){
     	#adds a route
 		$this->paths[] = ['path'=> trim($path, '/') ? trim($path, '/') : '/', 'controller' => $controller, 'function' => $function];
+	}
+
+	public function addController($name, $class){
+		#adds a controller
+		$this->controllers[$name] = $class;
 	}
 
 	public function submit(){
@@ -16,17 +22,24 @@ class Route{
 
 		foreach ($this->paths as $pathKey => $pathValue) {
 			if(preg_match("#^".$pathValue['path']."$#", $uri, $matches)){
-				if(method_exists($pathValue['controller'], "init")){
-					$initOuput = call_user_func([$pathValue['controller'], "init"], $matches);
+				$controller = $this->controllers[$pathValue['controller']];
+
+				if(method_exists($controller, "init")){
+					$initOuput = $controller->init($matches);
 				}
-				else{
-					$initOuput = (object)[];
+				
+				if(!isset($initOuput)){
+					$initOuput = new stdClass();;
 				}
 
 				$initOuput->url_matches = $matches;
 
-				call_user_func([$pathValue['controller'], $pathValue['function']], $initOuput);
+				$function = $pathValue['function'];
+
+				$controller->$function($initOuput);
 				$FourOhFour = false;
+
+				break;
 			}
 		}
 
