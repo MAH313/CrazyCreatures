@@ -1,6 +1,4 @@
 <?php
-include_once "./libs/route.php";
-include_once './libs/smarty/libs/Smarty.class.php';
 
 class Pages{
 	private $smarty;
